@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  web:
+    #build: .
+    image: app_web
+    command: nodemon -L --inspect=0.0.0.0:5858
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+      - "5858:5858"
