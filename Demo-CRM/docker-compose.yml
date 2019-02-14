@@ -64,7 +64,7 @@ services:
       - MARIADB_ROOT_USER=root
       - MARIADB_ROOT_PASSWORD=mysql
       - SUITECRM_DATABASE_USER=bn_suitecrm
-      - SUITECRM_DATABASE_PASSWORD=papito
+      - SUITECRM_DATABASE_PASSWORD=suitepwd
       - SUITECRM_DATABASE_NAME=bitnami_suitecrm
       - SUITECRM_HTTP_TIMEOUT=3600
     ports:
