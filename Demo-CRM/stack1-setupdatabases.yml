@@ -4,7 +4,7 @@ services:
     hostname: 'db1'
     env_file:
       - mysql-server.env
-    image: mysql/mysql-server:8.0.12
+    image: mysql/mysql-server:5.7.25
     volumes:
       - datadb1:/var/lib/mysql
     networks:
@@ -23,7 +23,7 @@ services:
     hostname: 'db2'
     env_file:
       - mysql-server.env
-    image: mysql/mysql-server:8.0.12
+    image: mysql/mysql-server:5.7.25
     volumes:
       - datadb2:/var/lib/mysql    
     networks:
@@ -42,7 +42,7 @@ services:
     hostname: 'db3'
     env_file:
       - mysql-server.env
-    image: mysql/mysql-server:8.0.12
+    image: mysql/mysql-server:5.7.25
     volumes:
       - datadb3:/var/lib/mysql    
     networks:

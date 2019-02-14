@@ -19,17 +19,7 @@ services:
     depends_on:
       - db1
       - db2
-      - db3
-    
-#  dbwebapp:
-#    env_file:
-#      - dbwebapp.env
-#    image: neumayer/dbwebapp
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      - mysql-router
-     
+      - db3     
 networks:
   backend:
     external: true
