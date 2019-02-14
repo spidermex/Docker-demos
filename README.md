@@ -1,15 +1,15 @@
 # Docker-demos
 Some rebranded demos from forked Docker projects
 
-###Credits/Sources/Forks:###
+### Credits/Sources/Forks:
 
-#####"innodb-cluster"   
+##### "innodb-cluster"   
 https://github.com/neumayer/mysql-docker-compose-examples  
 
-####"nodejs-debugging"
+##### "nodejs-debugging"
 https://github.com/docker/labs   
 
-####"Demo-voting-app"
+##### "Demo-voting-app"
 https://github.com/dockersamples/example-voting-app  
 
 
