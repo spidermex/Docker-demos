@@ -1,6 +1,6 @@
 version: '3'
 services:
-  
+
   mysql-shell:
     env_file:
       - mysql-shell.env
@@ -15,7 +15,9 @@ services:
         condition: on-failure    
         delay: 20s
         max_attempts: 5
-        window: 120s           
+        window: 120s
+      placement:
+        constraints: [node.label.nodo == manager1]        
     depends_on:
       - db1
       - db2

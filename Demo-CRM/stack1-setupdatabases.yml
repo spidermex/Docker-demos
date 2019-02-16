@@ -2,8 +2,12 @@ version: '3'
 services:
   db1:
     hostname: 'db1'
-    env_file:
-      - mysql-server.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysql
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_USER=bn_suitecrm
+      - MYSQL_PASSWORD=suitepwd
+      - MYSQL_DATABASE=bitnami_suitecrm
     image: mysql/mysql-server:5.7.25
     volumes:
       - datadb1:/var/lib/mysql
@@ -21,8 +25,12 @@ services:
     
   db2:
     hostname: 'db2'
-    env_file:
-      - mysql-server.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysql
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_USER=bn_suitecrm
+      - MYSQL_PASSWORD=suitepwd
+      - MYSQL_DATABASE=bitnami_suitecrm
     image: mysql/mysql-server:5.7.25
     volumes:
       - datadb2:/var/lib/mysql    
@@ -40,8 +48,12 @@ services:
       
   db3:
     hostname: 'db3'
-    env_file:
-      - mysql-server.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysql
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_USER=bn_suitecrm
+      - MYSQL_PASSWORD=suitepwd
+      - MYSQL_DATABASE=bitnami_suitecrm
     image: mysql/mysql-server:5.7.25
     volumes:
       - datadb3:/var/lib/mysql    

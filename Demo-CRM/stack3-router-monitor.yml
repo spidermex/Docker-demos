@@ -3,8 +3,12 @@ services:
   
   mysqlrouter:
     hostname: 'mysqlrouter'
-    env_file:
-      - mysql-router.env
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_HOST=db1
+      - MYSQL_PORT=3306
+      - MYSQL_PASSWORD=mysql
+      - MYSQL_INNODB_NUM_MEMBERS=3
     image: mysql/mysql-router:8.0
     networks:
       - backend
@@ -14,27 +18,47 @@ services:
         condition: on-failure    
         delay: 20s
         max_attempts: 5
-        window: 120s        
+        window: 120s   
+      placement:
+        constraints: [node.role == worker]     
     ports:
       - "6446:6446"
       - "6447:6447"
 
-  visualizer:
-    image: dockersamples/visualizer:stable
-    ports:
-      - "8080:8080"
-    stop_grace_period: 1m30s
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock"
+  suitecrm:
+#    image: 'bitnami/suitecrm:latest'
+    image: 'manamann/newcrm:latest'
+    environment:
+      - MARIADB_HOST=mysqlrouter
+      - MARIADB_PORT_NUMBER=6446
+      - MARIADB_ROOT_USER=root
+      - MARIADB_ROOT_PASSWORD=mysql
+      - SUITECRM_DATABASE_USER=bn_suitecrm
+      - SUITECRM_DATABASE_PASSWORD=suitepwd
+      - SUITECRM_DATABASE_NAME=bitnami_suitecrm
+      - SUITECRM_HTTP_TIMEOUT=3600
+      - SUITECRM_VALIDATE_USER_IP=no
+    networks:
+      - backend
     deploy:
       replicas: 1
       restart_policy:
         condition: on-failure    
         delay: 20s
       placement:
-        constraints: [node.role == manager]
-        
+        constraints: [node.role == worker]      
+    ports:
+      - '80:80'
+      - '444:443'
+#    volumes:
+#      - 'suitecrm_data:/bitnami'
+    depends_on:
+      - mysql-router
+             
 networks:
   backend:
     external: true
+
+#volumes:
+#  suitecrm_data:    
         
