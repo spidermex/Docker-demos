@@ -1,0 +1,97 @@
+version: '3'
+services:
+  db1:
+    hostname: 'db1'
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysql
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_USER=bn_suitecrm
+      - MYSQL_PASSWORD=suitepwd
+      - MYSQL_DATABASE=bitnami_suitecrm
+    image: mysql/mysql-server:5.7.25
+    volumes:
+      - datadb1:/var/lib/mysql
+    networks:
+      - backend
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "3306:3306"
+    command: ["mysqld","--server_id=1","--binlog_checksum=NONE","--gtid_mode=ON","--enforce_gtid_consistency=ON","--log_bin","--log_slave_updates=ON","--master_info_repository=TABLE","--relay_log_info_repository=TABLE","--transaction_write_set_extraction=XXHASH64","--user=mysql","--skip-host-cache","--skip-name-resolve", "--default_authentication_plugin=mysql_native_password","--ignore-db-dir=lost+found"]
+
+  suitecrm:
+    image: 'bitnami/suitecrm:latest'
+    environment:
+      - MARIADB_HOST=db1
+      - MARIADB_PORT_NUMBER=3306
+      - MARIADB_ROOT_USER=root
+      - MARIADB_ROOT_PASSWORD=mysql
+      - SUITECRM_DATABASE_USER=bn_suitecrm
+      - SUITECRM_DATABASE_PASSWORD=suitepwd
+      - SUITECRM_DATABASE_NAME=bitnami_suitecrm
+      - SUITECRM_HTTP_TIMEOUT=3600
+      - SUITECRM_VALIDATE_USER_IP=no
+    networks:
+      - backend
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure    
+        delay: 20s
+      placement:
+        constraints: [node.role == worker]      
+    ports:
+      - '80:80'
+      - '444:443'
+    volumes:
+      - 'suitecrm_data:/bitnami'
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    hostname: 'phpmyadmin'
+    environment:
+     - PMA_HOST=db1
+     - PMA_PORT=3306
+    networks:
+      - backend     
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure    
+        delay: 20s
+        max_attempts: 5
+        window: 120s          
+    ports:
+     - 8081:80
+    volumes:
+     - /sessions
+
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "8080:8080"
+    stop_grace_period: 1m30s
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure    
+        delay: 20s
+      placement:
+        constraints: [node.role == manager]
+
+networks:
+  backend:
+        
+volumes:
+  datadb1:
+    external: true
+  suitecrm_data:
+    external: true
+
+  # docker volume create --driver storageos --opt size=1 --opt storageos.com/replicas=1 datadb1
+  # docker volume create --driver storageos --opt size=1 --opt storageos.com/replicas=1 suitecrm_data
+
