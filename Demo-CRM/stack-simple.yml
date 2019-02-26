@@ -1,4 +1,11 @@
 version: '3'
+
+# This stack assumes a 'persistent storage' scenario
+# where you already have data volumes created/allocated
+# this sample uses "storageOS" as a storage driver
+# https://storageos.com/product/
+
+
 services:
   db1:
     hostname: 'db1'
