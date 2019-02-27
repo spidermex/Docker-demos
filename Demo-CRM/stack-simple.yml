@@ -53,7 +53,7 @@ services:
       - '80:80'
       - '444:443'
     volumes:
-      - 'suitecrm_data:/bitnami'
+      - suitecrm_data:/bitnami
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
