@@ -50,7 +50,7 @@ services:
       placement:
         constraints: [node.role == worker]      
     ports:
-      - '80:80'
+      - '88:80'
       - '444:443'
     volumes:
       - suitecrm_data:/bitnami
