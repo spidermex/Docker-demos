@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  osjs:
+    image: osjs/osjs:v3
+    ports:
+      - "8088:8000"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure    
+        delay: 20s
+        
