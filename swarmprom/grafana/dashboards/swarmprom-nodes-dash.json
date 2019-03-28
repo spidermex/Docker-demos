@@ -16,7 +16,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1547535746076,
+  "iteration": 1553755737229,
   "links": [],
   "panels": [
     {
@@ -337,8 +337,9 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(irate(node_cpu_seconds_total{mode=\"idle\"}[$interval]) * on(instance) group_left(node_name) node_meta{node_id=~\"$node_id\"}) * 100 / count(node_cpu_seconds_total{mode=\"user\"} * on(instance) group_left(node_name) node_meta{node_id=~\"$node_id\"}) ",
+          "expr": "100-sum(irate(node_cpu_seconds_total{mode=\"idle\"}[$interval]) * on(instance) group_left(node_name) node_meta{node_id=~\"$node_id\"}) * 100 / count(node_cpu_seconds_total{mode=\"user\"} * on(instance) group_left(node_name) node_meta{node_id=~\"$node_id\"}) ",
           "format": "time_series",
+          "hide": false,
           "intervalFactor": 2,
           "legendFormat": "",
           "refId": "A",
@@ -348,7 +349,7 @@
       "thresholds": "10,25,100",
       "timeFrom": "1m",
       "timeShift": null,
-      "title": "CPU Idle",
+      "title": "Used CPU",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -687,8 +688,9 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum((node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * on(instance) group_left(node_name) node_meta{node_id=~\"$node_id\"} * 100) / count(node_meta * on(instance) group_left(node_name) node_meta{node_id=~\"$node_id\"})",
+          "expr": "100-sum((node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * on(instance) group_left(node_name) node_meta{node_id=~\"$node_id\"} * 100) / count(node_meta * on(instance) group_left(node_name) node_meta{node_id=~\"$node_id\"})",
           "format": "time_series",
+          "hide": false,
           "intervalFactor": 2,
           "legendFormat": "",
           "refId": "A",
@@ -696,7 +698,7 @@
         }
       ],
       "thresholds": "10,25,100",
-      "title": "Available Memory",
+      "title": "Used Memory",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -1105,7 +1107,7 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum((node_filesystem_free_bytes{mountpoint=\"/rootfs\"} / node_filesystem_size_bytes{mountpoint=\"/rootfs\"}) * on(instance) group_left(node_name) node_meta{node_id=~\"$node_id\"} * 100) / count(node_meta * on(instance) group_left(node_name) node_meta{node_id=~\"$node_id\"})",
+          "expr": "100-sum((node_filesystem_free_bytes{mountpoint=\"/rootfs\"} / node_filesystem_size_bytes{mountpoint=\"/rootfs\"}) * on(instance) group_left(node_name) node_meta{node_id=~\"$node_id\"} * 100) / count(node_meta * on(instance) group_left(node_name) node_meta{node_id=~\"$node_id\"})",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -1114,7 +1116,7 @@
         }
       ],
       "thresholds": "10,25,100",
-      "title": "Available Disk Space",
+      "title": "Used Disk Space",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -1945,8 +1947,10 @@
         "sort": 0,
         "tagValuesQuery": "label_values({node_id=\"$tag\"},node_name)",
         "tags": [
-          "ofdocker",
-          "ofmon"
+          "ubwrk2",
+          "ubwrk3",
+          "ubmgr1",
+          "ubwkr1"
         ],
         "tagsQuery": "label_values(node_meta, node_name)",
         "type": "query",
@@ -2059,5 +2063,5 @@
   "timezone": "",
   "title": "Docker Swarm Nodes",
   "uid": "BPlb-Sgik",
-  "version": 3
+  "version": 1
 }
